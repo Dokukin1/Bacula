@@ -4,6 +4,26 @@
 
 ### Задание 1
 
+В чём разница между:
+- полным резервным копированием,
+- дифференциальным резервным копированием,
+- инкрементным резервным копированием.
+
+*Приведите ответ в свободной форме.*
+```
+```
+Полное резервное копирование (Full BackUp) - каждый раз выполняется полное копирование всех данных.
+- самый надёжный, т.к. каждый раз копируются все данные;
+- самый быстрый, с точки зрения скорости восстановления;
+- самый медленный и ресурсоемкий, с точки зрения создание и хранения копии.
+
+Дифференциальное резервное копирование (Differential BackUp) - полное резервное копирование делается только первый раз, затем резервируются измененные данные с момента последней полной копии.
+- восстановление выполняется медленнее, чем в полном и быстрее, чем в инкрементальном;
+- копирование выполняется быстрее, чем в полном и медленне, чем в инкрементальном.
+
+Инкрементное резервное копирование (Incremental BackUp) - похоже на дифифференциальное копирование, за исключением того, что каждая новая копия содержит только данные, изменённые после последней инкрементальной копии.
+- самый медленный, с точки зрения скорости восстановления;
+- самый быстрый на наименее ресурсоёмкий, с точки зрения создание и хранения копии.
 ---
 
 ### Задание 2
@@ -12,6 +32,25 @@
 
 *Пришлите конфигурационные файлы для bacula-dir, bacula-sd,  bacula-fd.*
 - bacula-dir.conf: 
+```
+sudo apt install bacula postgresql
+sudo nano /etc/bacula/bacula-sd.conf
+sudo /usr/sbin/bacula-sd -t -c /etc/bacula/bacula-sd.conf
+sudo systemctl restart bacula-sd.service
+sudo systemctl status bacula-sd.service
+sudo nano /etc/bacula/bacula-fd.conf # Конфигурим локального клиента
+sudo /usr/sbin/bacula-fd -t -c /etc/bacula/bacula-fd.conf
+sudo systemctl restart bacula-fd.service
+sudo systemctl status bacula-fd.service
+sudo nano /etc/bacula/bacula-dir.conf # Конфигурим консоль
+sudo /usr/sbin/bacula-dir -t -c /etc/bacula/bacula-dir.conf
+sudo systemctl restart bacula-dir.service
+sudo systemctl status bacula-dir.service
+# Переходим в консоль
+sudo bconsole
+* run
+* message
+* exit
 ```
 Director {                            # define myself
   Name = hw-10-4-n1-dir
